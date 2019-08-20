@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Login from './src/Login'
 import Firebase from 'firebase';
-import {  } from 'react-navigator';
+import {  } from 'react-navigation';
 
 var firebaseConfig = {
   apiKey: "AIzaSyAJ_KIRryOv6_0A79saT6DjXH00OEwLP68",
@@ -18,7 +19,7 @@ Firebase.initializeApp(firebaseConfig);
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Login/>
     </View>
   );
 }

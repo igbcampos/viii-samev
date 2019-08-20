@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import Firebase from 'firebase';
 
 export default class Login extends Component {
@@ -9,14 +9,23 @@ export default class Login extends Component {
         this.state = { email: '', senha: '' }
     }
 
+    //Fazer login
+    fazerLogin() {
+        Firebase.auth.signInWithEmailAndPassword(this.state.email, this.state.senha).catch(function (error) {
+            alert("DEU CERTO UHUUUUUUUUUUUUU");
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>Open up App.js to start working on your app!</Text>
+                <Text>Faça Seu Login</Text>
 
-                <TextInput placeholder="E-Mail" onChange={ (valor) => {this.setState({email:valor})} } value={ this.state.email } />
+                <TextInput placeholder="E-Mail" onChange={(valor) => { this.setState({ email: valor }) }} value={this.state.email} />
 
-                <TextInput placeholder="Senha" secureTextEntry= {(true)} onChange={ (valor) => {this.setState({senha:valor})} } value={ this.state.senha } />
+                <TextInput placeholder="Senha" secureTextEntry={(true)} onChange={(valor) => { this.setState({ senha: valor }) }} value={this.state.senha} />
+
+                <Button title="Entrar" onPress={this.fazerLogin} />
             </View>
         );
     }
