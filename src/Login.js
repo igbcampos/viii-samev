@@ -6,14 +6,18 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { email: '', senha: '' }
+        this.state = { email: '', password: '' }
     }
 
     //Fazer login
-    fazerLogin() {
-
-        Firebase.auth.signInWithEmailAndPassword(this.state.email, this.state.senha).catch(function (error) {
-            alert("DEU CERTO UHUUUUUUUUUUUUU");
+    login() {
+        Firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((user) => {
+            alert('DEU CERTO UHUUUUUUUUUUUUU');
+            this.props.navigation.navigate('Home');
+        })
+        .catch((error) => {
+            alert('Algo deu errado.');
         });
     }
 
@@ -22,11 +26,25 @@ export default class Login extends Component {
             <View style={styles.container}>
                 <Text>Faça Seu Login</Text>
 
-                <TextInput placeholder="E-Mail" onChangeText={valor => this.setState({ email: valor })} value={this.state.email} />
+                <TextInput 
+                    placeholder='E-Mail'  
+                    value={ this.state.email }
+                    onChangeText={ (email) => this.setState({ email }) }
+                    keyboardType='email-address'
+                    textContentType='emailAddress'
+                    autoCapitalize='none' /> 
 
-                <TextInput placeholder="Senha" secureTextEntry={(true)} onChange={(valor) => { this.setState({ senha: valor }) }} value={this.state.senha} />
+                <TextInput 
+                    placeholder='Senha'  
+                    value={ this.state.password }
+                    onChangeText={ (password) => { this.setState({ password }) }}
+                    secureTextEntry />
 
-                <Button title="Entrar" onPress={() => this.fazerLogin()} />
+                <View>
+                    <Button 
+                        title='Entrar' 
+                        onPress={ () => {this.login()} } />
+                </View>
             </View>
         );
     }

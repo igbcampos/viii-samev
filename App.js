@@ -1,83 +1,80 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/Login'
-import Home from './src/Home'
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { createStackNavigator, createSwitchNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import Firebase from 'firebase';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
-var firebaseConfig = {
-  apiKey: "AIzaSyAJ_KIRryOv6_0A79saT6DjXH00OEwLP68",
-  authDomain: "samev-6ac08.firebaseapp.com",
-  databaseURL: "https://samev-6ac08.firebaseio.com",
-  projectId: "samev-6ac08",
-  storageBucket: "",
-  messagingSenderId: "613611223565",
-  appId: "1:613611223565:web:2f290c259bd98e67"
-};
+import Util from './src/Util';
 
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: Home
-  }
+import Login from './src/Login';
+import Home from './src/user/Home';
+
+Firebase.initializeApp(Util);
+
+const UserStackNavigator = createStackNavigator(
+	{
+		Home: { 
+			screen: Home, 
+			navigationOptions: {
+				title: 'VIII SAMEV'
+			}
+		}
+	}
+)
+
+const AdminBottomTabNavigator = createBottomTabNavigator({
+	Home: { screen: Home }
 })
 
-const AppNavigator_login_to_home = createSwitchNavigator({
-  Login: {
-    screen: Login
-  },
-  Home: {
-    screen: AppNavigator
-  }
-})
+class LoginOrHome extends Component {
+	constructor(props) {
+		super(props);
 
-export default class login_to_home extends Component {
-  constructor(props) {
-    super(props);
+		this.state = { user: { name: 'Jair', email: 'fjair123@gmail.com', cpf: '12345678936', number: '202910' } }
+	}
 
-    this.state = { user: { name: "Jair", email: "fjair123@gmail.com", cpf: "12345678936", number: "202910" } }
-  }
+	async componentDidMount() {
+		var user = await Firebase.auth().currentUser;
 
-  componentDidMount() {
-    Firebase.auth().currentUser.then(user => { console.log(user) })
-  }
+		if(user) {
+			this.props.navigation.navigate('Home');
+		}
+		else {
+			this.props.navigation.navigate('Login');
+		}
+	}
 
-  cadastrarMinucurso() {
-    alert("CAMERA")
-  }
-
-  render() {
-    return (
-      <ScrollView style={styles.container}>
-        {/* criação do card */}
-        <View>
-          <Text>{this.state.user.name}</Text>
-          <Text>{this.state.user.email}</Text>
-          <Text>{this.state.user.cpf}</Text>
-          <Text>{this.state.user.number}</Text>
-        </View>
-
-        <Button title="Cadastrar Minicurso" onPress={this.cadastrarMinucurso} />
-      </ScrollView>
-    );
-  }
+	render() {
+		return (
+			<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size='large' />
+			</View>
+    	);
+	}
 }
 
+const LoginOrHomeSwitchNavigator = createSwitchNavigator(
+	{
+		LoginOrHome: { screen: LoginOrHome },
+		Login: { screen: Login },
+		Home: { screen: UserStackNavigator }
+	}
+)
 
-Firebase.initializeApp(firebaseConfig);
+export default createAppContainer(LoginOrHomeSwitchNavigator);
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Login />
-    </View>
-  );
-}
+// export default function App() {
+// 	return (
+// 		<View style={styles.container}>
+// 			<Login />
+// 		</View>
+// 	);
+// }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 });
