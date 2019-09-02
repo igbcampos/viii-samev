@@ -6,7 +6,14 @@ export default class Courses extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { courses: [{name: 'Palestra 1', ministrant: 'Pessoa 1'}, {name: 'Palestra 1', ministrant: 'Pessoa 1'}] } 
+        this.state = { courses: [] } 
+    }
+
+    async componentDidMount() {
+        await Firebase.database().ref('courses').on('child_added', (snapshot) => {
+            this.setState({ courses: snapshot.val() })
+            alert(JSON.stringify(snapshot.val()))
+        });
     }
 
     renderItem(item) {

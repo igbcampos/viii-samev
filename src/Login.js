@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ActivityIndicator } from 'react-native';
 import Firebase from 'firebase';
 
 export default class Login extends Component {
@@ -11,8 +11,10 @@ export default class Login extends Component {
 
     //Fazer login
     async login() {
+        <ActivityIndicator size='large'/>
+
         await Firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(async (user) => {
+        .then((user) => {
 
             // user.user.updateProfile({
             //     displayName: 'Gabriel Costa Campos',
@@ -28,10 +30,11 @@ export default class Login extends Component {
                 this.props.navigation.navigate('AdminHome');
             }
 
-            // await Firebase.database().ref('users').once('value')
+            // Firebase.database().ref('/users/').once('value')
             // .then((snapshot) => {
+            //     console.log(JSON.stringify(snapshot));
             //     snapshot.val().map((data) => {
-            //         console.log(JSON.stringify(data));
+            //         console.log(JSON.stringify(snapshot));
             //         // if(data.email == user.email) {
             //         //     if(data.bond == 'user') {
             //         //         this.props.navigation.navigate('UserHome');
