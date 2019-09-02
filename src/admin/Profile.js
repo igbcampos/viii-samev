@@ -6,25 +6,12 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { user: {name: 'Jair', email: 'fjair123@gmail.com', cpf: '12345678936', number: '202910', applications: [{name: 'Palestra 1', ministrant: 'Pessoa 1'}, {name: 'Palestra 1', ministrant: 'Pessoa 1'}]} }
+        this.state = { user: {name: 'Jair', email: 'fjair123@gmail.com', cpf: '12345678936', number: '202910'} }
     }
 
     logout() {
         Firebase.auth().signOut();
         this.props.navigation.navigate('Login');
-    }
-
-    signUpCourse() {
-        alert('CAMERA');
-    }
-
-    renderItem(item) {
-        return (
-            <View>
-                <Text>{ item.name }</Text>
-                <Text>{ item.ministrant }</Text>
-            </View>
-        );
     }
 
     render() {
@@ -35,7 +22,6 @@ export default class Home extends Component {
         return (
             <View style={ styles.container }>
                 <ScrollView>
-                    {/* criação do card */}
                     <View>
                         <Text>{ this.state.user.name }</Text>
                         <Text>{ this.state.user.email }</Text>
@@ -46,19 +32,6 @@ export default class Home extends Component {
                             <Button title='Sair' onPress={ () => this.logout() }/>
                         </View>
                     </View>
-
-                    <View>
-                        <Button title='Cadastrar Minicurso' onPress={ () => this.signUpCourse() }/>
-                    </View>
-
-                    <Text>Lista de atividades</Text>
-                    
-                    <FlatList 
-                        data={ this.state.user.applications }
-                        ListEmptyComponent={ emptyList }
-                        renderItem={ ({item}) => this.renderItem(item) }
-                        keyExtractor={ (item, index) => item.name + index }
-                    />
                 </ScrollView>
             </View>
         );
