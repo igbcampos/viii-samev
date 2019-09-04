@@ -4,6 +4,7 @@ import { createStackNavigator, createSwitchNavigator, createAppContainer, create
 import Firebase from 'firebase';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 import Util from './src/Util';
 
@@ -67,7 +68,7 @@ const CoursesStackNavigator = createStackNavigator(
 
 const NotifyStackNavigator = createStackNavigator(
 	{
-		Home: { 
+		Notify: { 
 			screen: Notify, 
 			navigationOptions: {
 				title: 'Notificar'
@@ -78,7 +79,7 @@ const NotifyStackNavigator = createStackNavigator(
 
 const ProfileStackNavigator = createStackNavigator(
 	{
-		Home: { 
+		Profile: { 
 			screen: Profile, 
 			navigationOptions: {
 				title: 'Perfil'
@@ -168,27 +169,27 @@ export default class App extends Component {
 
 	async registerForPushNotificationsAsync() {
 		const { status: existingStatus } = await Permissions.getAsync(
-		  Permissions.NOTIFICATIONS
+		  	Permissions.NOTIFICATIONS
 		);
 		let finalStatus = existingStatus;
 		
 		if (existingStatus !== 'granted') {
-		  const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-		  finalStatus = status;
+			const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+			finalStatus = status;
 		}
 	  
 		if (finalStatus !== 'granted') {
-		  return;
+		  	return;
 		}
 	  
 		try {
-		  let token = await Notifications.getExpoPushTokenAsync();
-		  console.log(token);
-		  var dados = {token: token};
-		  await Firebase.database().ref('tokens').child(token.split('[')[1].split(']')[0]).set(dados);
+			let token = await Notifications.getExpoPushTokenAsync();
+			console.log(token);
+			var dados = { token: token };
+			await Firebase.database().ref('tokens').child(token.split('[')[1].split(']')[0]).set(dados);
 		}
 		catch(error) {
-		  console.log(error);
+		  	console.log(error);
 		}
 	}
 

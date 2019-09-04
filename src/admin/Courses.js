@@ -6,27 +6,22 @@ export default class Courses extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { courses: [{name: 'Palestra 1', ministrant: 'Pessoa 1', applicants: [{name: 'Gabriel'}, {name: 'Jair'}]}, {name: 'Palestra 1', ministrant: 'Pessoa 1', applicants: [{name: 'Gabriel'}, {name: 'Jair'}]}] } 
+        this.state = { courses: [] } 
     }
 
     componentDidMount = async () => {
-        // await Firebase.database().ref('courses').on('child_added', (snapshot) => {
-        //     this.setState({ courses: snapshot.val() });
-        //     alert(JSON.stringify(snapshot.val()));
-        // });
+        var data = []
 
-        // Firebase.database().ref('courses').once('value', (snapshot) => {
-        //     snapshot.forEach((course) => {
-        //         this.setState({ courses: [...this.state.courses, ...course] });
-            
-        //         alert(JSON.stringify(course.val().name));
-        //     });
-        // });
+        Firebase.database().ref('courses').orderByChild('name').on('child_added', snapshot => {
+            data.push(snapshot.val());
+        });
+        
+        this.setState({ courses: data });
     }
 
     renderItem(item) {
         return (
-            <TouchableOpacity onPress={ () => this.props.navigation.navigate('CourseDetails') }>
+            <TouchableOpacity onPress={ () => this.props.navigation.navigate('CourseDetails', { course: item }) }>
                 <View>
                     <Text>{ item.name }</Text>
                     <Text>{ item.ministrant }</Text>

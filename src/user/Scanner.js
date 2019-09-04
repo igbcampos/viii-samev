@@ -30,7 +30,7 @@ export default class Scanner extends Component {
             time: date.getTime()
         }
 
-        Firebase.database().ref('courses').child(course).push(data);
+        Firebase.database().ref('courses').child(course).child('applicants').push(data);
     }
 
     render() {
