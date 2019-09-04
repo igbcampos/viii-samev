@@ -29,7 +29,7 @@ export default class Notify extends Component {
                         multiline />
 
                     <View>
-                        <Button title='Cadastrar Minicurso' onPress={ this.notify }/>
+                        <Button title='Cadastrar notificação' onPress={ this.notify }/>
                     </View>
                 </ScrollView>
             </View>

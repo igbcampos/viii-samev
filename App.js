@@ -3,12 +3,15 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { createStackNavigator, createSwitchNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import Firebase from 'firebase';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { Notifications } from 'expo';
 
 import Util from './src/Util';
 
 import Login from './src/Login';
 import Home from './src/user/Home';
+import Scanner from './src/user/Scanner';
 import Courses from './src/admin/Courses';
+import AddCourse from './src/admin/AddCourse';
 import CoursesDetails from './src/admin/CourseDetails';
 import AddApplicant from './src/admin/AddApplicant';
 import Notify from './src/admin/Notify';
@@ -22,6 +25,12 @@ const UserStackNavigator = createStackNavigator(
 			screen: Home, 
 			navigationOptions: {
 				title: 'VIII SAMEV'
+			},
+		},
+		Scanner: {
+			screen: Scanner, 
+			navigationOptions: {
+				title: 'Ler código'
 			}
 		}
 	}
@@ -33,6 +42,12 @@ const CoursesStackNavigator = createStackNavigator(
 			screen: Courses, 
 			navigationOptions: {
 				title: 'Cursos'
+			}
+		},
+		AddCourse: {
+			screen: AddCourse, 
+			navigationOptions: {
+				title: 'Adicionar curso'
 			}
 		},
 		CourseDetails: { 
@@ -144,7 +159,45 @@ const LoginOrHomeSwitchNavigator = createSwitchNavigator(
 	}
 )
 
-export default createAppContainer(LoginOrHomeSwitchNavigator);
+const AppContainer = createAppContainer(LoginOrHomeSwitchNavigator);
+
+export default class App extends Component {
+	async componentDidMount() {
+		await this.registerForPushNotificationsAsync();
+	}
+
+	async registerForPushNotificationsAsync() {
+		const { status: existingStatus } = await Permissions.getAsync(
+		  Permissions.NOTIFICATIONS
+		);
+		let finalStatus = existingStatus;
+		
+		if (existingStatus !== 'granted') {
+		  const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+		  finalStatus = status;
+		}
+	  
+		if (finalStatus !== 'granted') {
+		  return;
+		}
+	  
+		try {
+		  let token = await Notifications.getExpoPushTokenAsync();
+		  console.log(token);
+		  var dados = {token: token};
+		  await Firebase.database().ref('tokens').child(token.split('[')[1].split(']')[0]).set(dados);
+		}
+		catch(error) {
+		  console.log(error);
+		}
+	}
+
+	render() {
+		return (
+			<AppContainer />
+		);
+	}
+}
 
 const styles = StyleSheet.create({
 	container: {

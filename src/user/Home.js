@@ -48,7 +48,7 @@ export default class Home extends Component {
                     </View>
 
                     <View>
-                        <Button title='Cadastrar Minicurso' onPress={ () => this.signUpCourse() }/>
+                        <Button title='Cadastrar Minicurso' onPress={ () => this.props.navigation.navigate('Scanner') }/>
                     </View>
 
                     <Text>Lista de atividades</Text>

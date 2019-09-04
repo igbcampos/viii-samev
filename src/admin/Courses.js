@@ -6,14 +6,22 @@ export default class Courses extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { courses: [] } 
+        this.state = { courses: [{name: 'Palestra 1', ministrant: 'Pessoa 1', applicants: [{name: 'Gabriel'}, {name: 'Jair'}]}, {name: 'Palestra 1', ministrant: 'Pessoa 1', applicants: [{name: 'Gabriel'}, {name: 'Jair'}]}] } 
     }
 
-    async componentDidMount() {
-        await Firebase.database().ref('courses').on('child_added', (snapshot) => {
-            this.setState({ courses: snapshot.val() })
-            alert(JSON.stringify(snapshot.val()))
-        });
+    componentDidMount = async () => {
+        // await Firebase.database().ref('courses').on('child_added', (snapshot) => {
+        //     this.setState({ courses: snapshot.val() });
+        //     alert(JSON.stringify(snapshot.val()));
+        // });
+
+        // Firebase.database().ref('courses').once('value', (snapshot) => {
+        //     snapshot.forEach((course) => {
+        //         this.setState({ courses: [...this.state.courses, ...course] });
+            
+        //         alert(JSON.stringify(course.val().name));
+        //     });
+        // });
     }
 
     renderItem(item) {
@@ -34,7 +42,13 @@ export default class Courses extends Component {
 
         return (
             <View style={ styles.container }>
-                <ScrollView>
+                <ScrollView>           
+                    <View>
+                        <Button 
+                            title='Adicionar curso' 
+                            onPress={ () => {this.props.navigation.navigate('AddCourse')} } />
+                    </View>
+
                     <FlatList 
                         data={ this.state.courses }
                         ListEmptyComponent={ emptyList }
