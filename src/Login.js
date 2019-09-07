@@ -63,37 +63,31 @@ export default class Login extends Component {
         return (
             <View style={styles.container}>
 
-                <Text style={styles.titleText}>Faça Seu Login</Text>
+                <Text style={styles.text}>Faça Seu Login</Text>
 
                 <TextInput
-
-                    style={{ height: 40, borderColor: 'white', borderWidth: 20, justifyContent: 'center', }}
-
+                    style={styles.input}
                     placeholder='E-Mail'
                     value={this.state.email}
                     onChangeText={(email) => this.setState({ email })}
                     keyboardType='email-address'
                     textContentType='emailAddress'
-                    autoCapitalize='none' />
+                    autoCapitalize='none'
+                />
 
                 <TextInput
-
-                    style={{ height: 40, borderColor: 'white', borderWidth: 20, justifyContent: 'center', }}
-
+                    style={styles.input}
                     placeholder='Senha'
                     value={this.state.password}
                     onChangeText={(password) => { this.setState({ password }) }}
-                    secureTextEntry />
+                    secureTextEntry
+                />
 
                 <Text>{this.state.status}</Text>
 
-                <View style={styles.fixToText}>
+                <View style={styles.button}>
                     <Button
-                        icon={{
-                            name: "arrow-right",
-                            size: 15,
-                            color: "white"
-                        }}
+                        
                         title='Entrar'
                         onPress={() => { this.login() }} />
                 </View>
@@ -105,24 +99,39 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#7159c1',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 30
     },
 
-    title: {
-        textAlign: 'center',
-        marginVertical: 8,
-    },
-
-    titleText: {
-        fontSize: 20,
+    text:
+    {
         fontWeight: 'bold',
-        justifyContent: 'center',
+        color: '#FFF',
+        fontSize: 20
     },
 
-    fixToText: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+    input:
+    {
+        height: 46,
+        alignSelf: 'stretch',
+        backgroundColor: '#FFF',
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 4,
+        marginTop: 20,
+        paddingHorizontal: 15,
     },
+
+    button:
+    {
+        height: 46,
+        alignSelf: 'stretch',
+        backgroundColor: '#DF4723',
+        borderRadius: 4,
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
