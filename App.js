@@ -114,7 +114,7 @@ const AdminBottomTabNavigator = createBottomTabNavigator(
 	},
 	{
 	  tabBarOptions: {
-		activeTintColor: '#0076ff',
+		activeTintColor: '#5DAE63',
 	  }
 	}
 );

@@ -41,22 +41,27 @@ export default class AddCourse extends Component {
         </View>
 
         return (
-            <View style={ styles.container }>
+            <View>
                 <ScrollView>
-                    <TextInput 
-                        placeholder='Nome'  
-                        value={ this.state.name }
-                        onChangeText={ (name) => this.setState({ name }) } />
-                        
-                    <TextInput 
-                        placeholder='Ministrante'  
-                        value={ this.state.ministrant }
-                        onChangeText={ (ministrant) => this.setState({ ministrant }) } />             
+                    <View style={ styles.container }>
+                        <TextInput
+                            style={ styles.input } 
+                            placeholder='Nome'  
+                            value={ this.state.name }
+                            onChangeText={ (name) => this.setState({ name }) } />
+                            
+                        <TextInput 
+                            style={ styles.input }
+                            placeholder='Ministrante'  
+                            value={ this.state.ministrant }
+                            onChangeText={ (ministrant) => this.setState({ ministrant }) } />             
 
-                    <View>
-                        <Button 
-                            title='Adicionar curso' 
-                            onPress={ () => {this.addCourse()} } />
+                        <View style={ styles.button }>
+                            <Button 
+                                title='Adicionar curso'
+                                color='#5DAE63' 
+                                onPress={ () => {this.addCourse()} } />
+                        </View>
                     </View>
                 </ScrollView>
             </View>
@@ -69,4 +74,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    input: {
+        padding: 8,
+        marginHorizontal: 16,
+        marginTop: 16,
+        borderColor: '#5DAE63',
+        borderRadius: 4,
+        borderWidth: 1,
+        fontSize: 16
+    },
+    button: {
+        margin: 16
+    }
 });

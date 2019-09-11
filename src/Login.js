@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ActivityIndicator, Image } from 'react-native';
 import Firebase from 'firebase';
 
 export default class Login extends Component {
@@ -18,15 +18,15 @@ export default class Login extends Component {
 
                 // user.user.updateProfile({
                 //     displayName: 'Gabriel Costa Campos',
-                //     photoURL: 'user',
+                //     photoURL: 'admin+06492855302+1234',
                 // });
 
                 // user.user.updatePhoneNumber = '06487654321';
 
-                if (user.user.photoURL == 'user') {
+                if (user.user.photoURL.split('+')[0] == 'user') {
                     this.props.navigation.navigate('UserHome');
                 }
-                else if (user.user.photoURL == 'admin') {
+                else if (user.user.photoURL.split('+')[0] == 'admin') {
                     this.props.navigation.navigate('AdminHome');
                 }
 
@@ -63,7 +63,9 @@ export default class Login extends Component {
         return (
             <View style={styles.container}>
 
-                <Text style={styles.text}>Faça Seu Login</Text>
+                <Image source={ require('../assets/icon1.png') } style={{ height: 200, alignSelf: 'center' }} />
+
+                <Text style={styles.text}>Faça seu login</Text>
 
                 <TextInput
                     style={styles.input}
@@ -87,8 +89,8 @@ export default class Login extends Component {
 
                 <View style={styles.button}>
                     <Button
-                        
                         title='Entrar'
+                        color='#5DAE63'
                         onPress={() => { this.login() }} />
                 </View>
             </View>
@@ -99,39 +101,25 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#7159c1',
-        alignItems: 'center',
+        backgroundColor: '#ffffff',
         justifyContent: 'center',
-        padding: 30
+        margin: 16
     },
-
-    text:
-    {
+    text: {
         fontWeight: 'bold',
         color: '#FFF',
         fontSize: 20
     },
-
-    input:
-    {
-        height: 46,
-        alignSelf: 'stretch',
-        backgroundColor: '#FFF',
+    input: {
         borderWidth: 1,
-        borderColor: '#ddd',
+        borderColor: '#5DAE63',
         borderRadius: 4,
-        marginTop: 20,
-        paddingHorizontal: 15,
+        marginTop: 16,
+        padding: 8,
+        fontSize: 16
     },
-
-    button:
-    {
-        height: 46,
-        alignSelf: 'stretch',
-        backgroundColor: '#DF4723',
+    button: {
         borderRadius: 4,
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 16,
     }
 });
